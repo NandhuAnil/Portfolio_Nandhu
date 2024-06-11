@@ -48,6 +48,7 @@
         background-color: #ffffff;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
           0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        transition: all 0.3s ease-in-out;
       }
       .basic-info .profile-img {
         width: 150px;
@@ -91,6 +92,12 @@
         padding: 10px 10px 0 0;
         float: right;
         overflow-y: hidden;
+        transition: all 0.3s ease-in-out;
+      }
+      .content-side.collapsed {
+        width: 0;
+        padding: 0;
+        overflow: hidden;
       }
       .navbar {
         position: fixed;
@@ -145,43 +152,6 @@
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
           0 6px 20px 0 rgba(0, 0, 0, 0.19);
         background-color: #ffffff;
-      }
-
-      /*Navbar*/
-
-      /*Heading*/
-
-      .heading {
-        width: 100%;
-        /* margin-top: 80px; */
-        font-size: 30px;
-        background: -webkit-linear-gradient(#0f6bfd, white);
-        /*-webkit-background-clip: text;
-						-webkit-text-fill-color: transparent;*/
-        padding: 30px;
-        display: flex;
-      }
-      .heading .image ~ .name {
-        padding: 40px;
-      }
-      .heading .name p {
-        font-size: 15px;
-      }
-      .heading .image {
-        width: 200px;
-        height: 200px;
-        border-radius: 50%;
-        background-image: url(img/nandhu.jpg);
-        background-size: 100%;
-        /* border: 5px solid white; */
-      }
-      #icon {
-        display: flex;
-        font-size: 30px;
-        justify-content: space;
-      }
-      #icon a {
-        margin: 20px;
       }
 
       /*career*/
@@ -305,47 +275,70 @@
         }
       }
       @media screen and (max-width: 768px) {
-        
-        nav ul li a:hover,
-        a.active {
-          color: #0f6bfd;
+        .basic-info{
+          display: none;
         }
-        .mycheckbox:checked ~ ul {
-          left: 0;
+        .basic-info.basic-info.expanded{
+          display: block;
+          position: relative;
+          left: 25%;
         }
+        .content-side{
+          width: 100%;
+          padding: 0;
+        }
+        .home h2{
+          font-size: 4.5vh;
+        }
+        .humbergbutton{
+          background-image: url(img/nandhu.jpg);
+          position: relative;
+          z-index: 999;
+          background-color: white;
+          width: 50px;
+          height: 50px;
+          border: none;
+          /* top: 20px; */
+          left: 20px;
+          bottom: 10px;
+          border-radius: 50%;
+          background-size: 100%;
+          background-repeat: no-repeat;
+          background-position: center;
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+          0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+        .header .close-btn{
+          color: black;
+          font-size: 30px;
+          position: relative;
+          top: 20px;
+          left: 20px;
+        }
+        .top-nav{
+          margin-right: 50px;
+        }
+
       }
-      @media screen and (max-width: 500px) {
+      @media screen and (max-width: 425px) {
         * {
-          font-size: 9px;
+          font-size: 12px;
         }
-        label.logo {
-          font-size: 15px;
-          padding: 0 30px;
+        .content-side{
+          width: 100%;
+          padding: 0;
         }
-        .checkbutton {
-          font-size: 15px;
-        }
-        .heading .name h1 {
-          font-size: 1.5rem;
-        }
-        .heading .name p {
-          font-size: 5px;
-        }
-        #icon {
-          font-size: 10px;
-        }
-        #icon a {
+        .top-nav{
+          width: 300px;
+          height: 50px;
           margin: 10px;
         }
-        .home p {
-          font-size: 10px;
+        .nav-items i {
+          font-size: 20px;
         }
-        .heading .image ~ .name {
-          padding: 20px;
-        }
-        .heading .image {
-          width: 90px;
-          height: 90px;
+        .nav-items p {
+          margin-bottom: 0;
+          font-size: 9px;
         }
         .Educational table {
           margin-left: 5px;
@@ -358,19 +351,22 @@
         .Educational table tr td {
           padding: 17px;
         }
+        .home p{
+          font-size: 12px;
+        }
         .home h2 {
           font-size: 3vh;
         }
-        nav label .logo {
-          font-size: 10px;
-          padding: 0 20px;
+        .humbergbutton{
+          bottom: unset;
         }
       }
     </style>
   </head>
   <body>
     <div class="header">
-      <div class="basic-info">
+      <i class="fa fa-close close-btn" onclick="collapse()"></i>
+      <div class="basic-info" id="basic-info">
         <div class="profile-img"></div>
         <h1 class="name">Nandhakumar.S <span>(B.Tech-IT)</span></h1>
         <div class="profile-items">
@@ -415,8 +411,9 @@
           >
         </div>
       </div>
-      <div class="content-side">
+      <div class="content-side" id="content-side">
         <div class="navbar">
+          <div class="humbergbutton" onclick="expand()"></div>
           <div class="top-nav">
             <a href="#1" class="nav-items">
               <i class="fa fa-home"></i>
@@ -427,15 +424,15 @@
               <p>Education</p>
             </a>
             <a href="#3" class="nav-items">
-              <i class="fa fa-star"></i>
+              <i class="fa fa-laptop"></i>
               <p>Skill</p>
             </a>
             <a href="#4" class="nav-items">
-              <i class="fa fa-pagelines"></i>
+              <i class="fa fa-suitcase"></i>
               <p>Experience</p>
             </a>
             <a href="#6" class="nav-items">
-              <i class="fa fa-music"></i>
+              <i class="fa fa-headphones"></i>
               <p>Hobbies</p>
             </a>
           </div>
@@ -564,9 +561,15 @@
       </div>
     </div>
     <script type="text/javascript">
-      $(document).on("click", "ul li", function () {
-        $(this).addClass("active").siblings().removeClass("active");
-      });
+      function expand() {
+        $("#basic-info").addClass("expanded");
+        $("#content-side").addClass("collapsed");
+      }
+  
+      function collapse() {
+        $("#basic-info").removeClass("expanded");
+        $("#content-side").removeClass("collapsed");
+      }
     </script>
   </body>
 </html>
